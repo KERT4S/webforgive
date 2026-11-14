@@ -68,21 +68,26 @@
     </div>
   </div>
 
-  <script>
+    <script>
     const noBtn = document.getElementById('noBtn');
 
-    function moveButton() {
+    function moveButton(e) {
+      // If a touch event triggered this, stop it from turning into a click event
+      if (e) {
+        e.preventDefault();
+      }
+
       // Switch to absolute positioning so it can teleport anywhere on screen
       if (noBtn.style.position !== 'absolute') {
         noBtn.style.position = 'absolute';
       }
 
-      // Calculate safe boundaries based on the window size
-      const padding = 50; 
+      // Calculate safe boundaries based on the screen size
+      const padding = 60; // Extra padding so it doesn't get stuck near the edge
       const maxX = window.innerWidth - noBtn.clientWidth - padding;
       const maxY = window.innerHeight - noBtn.clientHeight - padding;
 
-      // Generate random coordinates anywhere on the user's screen
+      // Generate random coordinates anywhere on the screen
       const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
       const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
 
@@ -91,16 +96,19 @@
       noBtn.style.top = randomY + 'px';
     }
 
-    // Triggers when mouse hovers over it (Desktop)
+    // iPad / Mobile optimization: Trigger the split second a finger contacts the glass
+    noBtn.addEventListener('touchstart', moveButton, { passive: false });
+
+    // Desktop optimization: Trigger when mouse pointer hovers over it
     noBtn.addEventListener('mouseenter', moveButton);
 
-    // Triggers when tapped (Mobile/Tablets)
-    noBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault(); // Prevents accidental click triggering before moving
-      moveButton();
+    // Fallback: If any regular click slips through, move it anyway
+    noBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      moveButton(e);
     });
-    noBtn.addEventListener('click', moveButton);
   </script>
+
 
 </body>
 </html>
