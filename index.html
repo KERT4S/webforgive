@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgive Me?</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: sans-serif;
+      background-color: #fff0f5;
+      margin: 0;
+    }
+    h1 {
+      color: #d147a3;
+    }
+    .btn-container {
+      position: relative;
+      width: 400px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #yesBtn {
+      background-color: #4caf50;
+      color: white;
+    }
+    #noBtn {
+      background-color: #f44336;
+      color: white;
+      position: absolute; /* Allows it to move freely */
+      transition: left 0.1s ease, top 0.1s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Do you forgive me? 🥺</h1>
+
+  <div class="btn-container">
+    <button id="yesBtn" onclick="alert('Yay! Thank you! ❤️')">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const container = document.querySelector('.btn-container');
+
+    // Function to move the button to a random spot inside the container
+    function moveButton() {
+      // Calculate max available width and height inside the container
+      const maxX = container.clientWidth - noBtn.clientWidth;
+      const maxY = container.clientHeight - noBtn.clientHeight;
+
+      // Generate random positions
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      // Apply new coordinates
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+    }
+
+    // Move when mouse hovers over it (for desktop)
+    noBtn.addEventListener('mouseenter', moveButton);
+
+    // Move when someone taps it (for mobile)
+    noBtn.addEventListener('click', moveButton);
+  </script>
+
+</body>
+</html>
